@@ -11,7 +11,6 @@ permissão por escrito da Discloud.
 */
 
 const fs = require('fs');
-const shell = require('shelljs');
 
 function usoRam() {
     try {
