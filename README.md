@@ -24,7 +24,7 @@ let ur = discloud.totalRam();
 console.log(ur)
 
 // dados do total de RAM disponível
-let = tr discloud.usoRam();
+let tr = discloud.usoRam();
 console.log(tr)
 
 ```
