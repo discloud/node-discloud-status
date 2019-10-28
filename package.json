@@ -1,6 +1,6 @@
 {
   "name": "discloud-status",
-  "version": "0.0.7",
+  "version": "0.0.1",
   "description": "Esse módulo Nodejs funciona apenas no linux, e foi criado exclusivamente para antes os usuarios da discloudbot.com",
   "main": "index.js",
   "scripts": {
