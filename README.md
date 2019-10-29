@@ -20,12 +20,12 @@ npm install discloud-status
 ```javascript
 const discloud = require("discloud-status");
 
-// dados do total de RAM
-let ur = discloud.totalRam();
+// dados do uso de RAM
+let ur = discloud.usoRam();
 console.log(ur)
 
 // dados do total de RAM disponível
-let tr = discloud.usoRam();
+let tr = discloud.totalRam();
 console.log(tr)
 
 ```
