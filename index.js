@@ -31,10 +31,11 @@ function totalRam() {
 
 
 function converter(bytes) {
-    let formatos = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    let formatos = ['B', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return '0B';
     let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    let result = Math.round(bytes / Math.pow(1024, i), 2) + formatos[i];
-    return result
+    if((bytes / Math.pow(1024, i)).toFixed(3).includes("000")) return Math.round(bytes / Math.pow(1024, i), 2) + formatos[i];
+    return (bytes / Math.pow(1024, i)).toFixed(3) + ' ' + formatos[i];
 }
 module.exports = {
     usoRam,
