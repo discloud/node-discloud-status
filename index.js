@@ -3,7 +3,7 @@ Copyright 2019 Discloud
 Todos os direitos reservados.
 
 AVISO: A Discloud permite que você use, modifique e distribua esse arquivo em
-de acordo com os termos do contrato de licençaque acompanha
+de acordo com os termos do contrato de licença que acompanha
 isto. Se você recebeu este arquivo de uma fonte diferente da Discloud,
 então seu uso, modificação ou distribuição exige a prévia
 permissão por escrito da Discloud.
