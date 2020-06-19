@@ -17,24 +17,24 @@ function ram() {
         let totalBytes = fs.readFileSync(`/sys/fs/cgroup/memory/memory.limit_in_bytes`).toString();
         return formatoMb(usoBytes)+'/'+formatoMb(totalBytes)+'MB'
     } catch (err) {
-       console.log("Dados não encontrados")
-      }
+       throw new Error("Dados não encontrados")
+    }
 }
 function usoRam() {
     try {
         let usoBytes = fs.readFileSync(`/sys/fs/cgroup/memory/memory.max_usage_in_bytes`).toString();//588132352
         return converter(usoBytes)
     } catch (err) {
-       console.log("Dados não encontrados")
-      }
+       throw new Error("Dados não encontrados")
+    }
 }
 function totalRam() {
     try {
         let totalBytes = fs.readFileSync(`/sys/fs/cgroup/memory/memory.limit_in_bytes`).toString(); //1400897536
         return converter(totalBytes)
     } catch (err) {
-       console.log("Dados não encontrados")
-      }
+       throw new Error("Dados não encontrados")
+    }
 }
 
 function converter(bytes) {
