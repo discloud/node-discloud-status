@@ -1,5 +1,5 @@
 /*
-Copyright 2019 Discloud
+Copyright 2019-2021 Discloud
 Todos os direitos reservados.
 
 AVISO: A Discloud permite que você use, modifique e distribua esse arquivo em
@@ -15,9 +15,9 @@ function ram() {
     try {
         let usoBytes = fs.readFileSync(`/sys/fs/cgroup/memory/memory.max_usage_in_bytes`).toString();
         let totalBytes = fs.readFileSync(`/sys/fs/cgroup/memory/memory.limit_in_bytes`).toString();
-        return formatoMb(usoBytes)+'/'+formatoMb(totalBytes)+'MB'
+        return formatoMb(usoBytes) + '/' + formatoMb(totalBytes) + 'MB'
     } catch (err) {
-       throw new Error("Dados não encontrados")
+        throw new Error("Dados não encontrados")
     }
 }
 function usoRam() {
@@ -25,7 +25,7 @@ function usoRam() {
         let usoBytes = fs.readFileSync(`/sys/fs/cgroup/memory/memory.max_usage_in_bytes`).toString();//588132352
         return converter(usoBytes)
     } catch (err) {
-       throw new Error("Dados não encontrados")
+        throw new Error("Dados não encontrados")
     }
 }
 function totalRam() {
@@ -33,7 +33,7 @@ function totalRam() {
         let totalBytes = fs.readFileSync(`/sys/fs/cgroup/memory/memory.limit_in_bytes`).toString(); //1400897536
         return converter(totalBytes)
     } catch (err) {
-       throw new Error("Dados não encontrados")
+        throw new Error("Dados não encontrados")
     }
 }
 
@@ -41,9 +41,9 @@ function converter(bytes) {
     let formatos = ['B', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return '0B';
     let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    if(i <= 2) return Math.round(bytes / Math.pow(1024, i), 2) + formatos[i];
-    if((bytes / Math.pow(1024, i)).toFixed(3).includes(".00")) return Math.round(bytes / Math.pow(1024, i), 2) + formatos[i];
-    if((bytes / Math.pow(1024, i)).toFixed(3).includes(".0")) return ((bytes / Math.pow(1024, i)).toFixed(3) + formatos[i]).replace("0","")
+    if (i <= 2) return Math.round(bytes / Math.pow(1024, i), 2) + formatos[i];
+    if ((bytes / Math.pow(1024, i)).toFixed(3).includes(".00")) return Math.round(bytes / Math.pow(1024, i), 2) + formatos[i];
+    if ((bytes / Math.pow(1024, i)).toFixed(3).includes(".0")) return ((bytes / Math.pow(1024, i)).toFixed(3) + formatos[i]).replace("0", "")
     return (bytes / Math.pow(1024, i)).toFixed(3) + formatos[i];
 }
 
@@ -51,8 +51,34 @@ function formatoMb(bytes) {
     return Math.round(bytes / Math.pow(1024, 2), 2);
 }
 
+const axios = require('axios');
+
+class APIstatus {
+    constructor(token) {
+        this.token = token;
+        this.instance = axios.create({
+            baseURL: 'https://discloud.app/status',
+            timeout: 5000,
+            headers: { 'api-token': this.token }
+        });
+    }
+    getUser() {
+        return new Promise((res, rej) => {
+            this.instance.get("/user").then(x => res(x.data))
+                .catch(err => rej(err))
+        })
+    }
+    getBot(id) {
+        return new Promise((res, rej) => {
+            this.instance.get(`/bot/${id}`).then(x => res(x.data))
+                .catch(err => rej(err))
+        })
+    }
+}
+
 module.exports = {
     usoRam,
     totalRam,
-    ram
- }
+    ram,
+    APIstatus
+}
