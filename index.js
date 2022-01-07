@@ -74,6 +74,12 @@ class APIstatus {
                 .catch(err => rej(err))
         })
     }
+    getBotLogs(id) {
+        return new Promise((res, rej) => {
+            this.instance.get(`/bot/${id}/logs`).then(x => res(x.data))
+                .catch(err => rej(err))
+        })
+    }
 }
 
 module.exports = {
