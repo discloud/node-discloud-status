@@ -52,6 +52,7 @@ function formatoMb(bytes) {
 }
 
 const axios = require('axios');
+const FormData = require('form-data')
 
 class APIstatus {
     constructor(token) {
@@ -70,16 +71,39 @@ class APIstatus {
     }
     getBot(id) {
         return new Promise((res, rej) => {
+            if (id == undefined) {return rej("Need bot id")}
             this.instance.get(`/bot/${id}`).then(x => res(x.data))
                 .catch(err => rej(err))
         })
     }
     getBotLogs(id) {
         return new Promise((res, rej) => {
+            if (id == undefined) {return rej("Need bot id")}
             this.instance.get(`/bot/${id}/logs`).then(x => res(x.data))
                 .catch(err => rej(err))
         })
     }
+    postBotRestart(id = undefined) {
+        return new Promise((res, rej) => {
+            if (id == undefined) {return rej("Need bot id")}
+            this.instance.post(`/bot/${id}/restart`).then(x => res(x.data))
+                .catch(err => rej(err))
+        })
+    }
+    postBotCommit(id, pathZip, restartBot = false) {
+        return new Promise((res, rej) => {
+            if (id == undefined) {return rej("Need bot id")}
+            if (pathZip == undefined) {return rej("Need path zip")}
+            const fileZip = fs.createReadStream(pathZip).catch(err => rej(err))
+            let form = new FormData();
+            form.append('file', fileZip);
+            this.instance.post(`/bot/${id}/commit?restart=${restartBot}`, form, {
+                headers: form.getHeaders({ 'api-token': this.token })
+            }).then(x => res(x.data))
+                .catch(err => rej(err))
+        })
+    }
+
 }
 
 module.exports = {
